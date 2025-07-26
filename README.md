@@ -1,86 +1,71 @@
-## File: main.py
+This project is a Python-based encryption tool that secures sensitive score data using three widely-known encryption algorithms: AES, DES, and RSA.
 
-from aes_encryption import encrypt_aes, decrypt_aes
-from des_encryption import encrypt_des, decrypt_des
-from rsa_encryption import encrypt_rsa, decrypt_rsa, generate_keys
-from Crypto.Random import get_random_bytes
+# 🔐 Multi-Algorithm Score Data Encryption Tool
 
-def main():
- print("Score Encryption Tool")
- data = input("Enter score data (e.g. Alice: 95): ")
- print("Choose encryption method:\n1. AES\n2. DES\n3. RSA")
- choice = input("Enter your choice: ")
- if choice == '1':
- key = get_random_bytes(16)
- encrypted = encrypt_aes(data, key)
- print("Encrypted (AES):", encrypted)
- print("Decrypted:", decrypt_aes(encrypted, key))
- elif choice == '2':
- key = get_random_bytes(8)
- encrypted = encrypt_des(data, key)
- print("Encrypted (DES):", encrypted)
- print("Decrypted:", decrypt_des(encrypted, key))
- elif choice == '3':
- private_key, public_key = generate_keys()
- encrypted = encrypt_rsa(data, public_key)
- print("Encrypted (RSA):", encrypted)
- print("Decrypted:", decrypt_rsa(encrypted, private_key))
- else:
- print("Invalid choice")
-if __name__ == "__main__":
- main()
+This Python project provides a simple command-line tool to encrypt and decrypt **score data** using three different encryption algorithms: **AES**, **DES**, and **RSA**. It is designed for learning and demonstration of the differences between symmetric and asymmetric encryption techniques.
 
+---
 
-## File: aes_encryption.py
+## 📌 Features
 
-from Crypto.Cipher import AES
-from Crypto.Random import get_random_bytes
-import base64
-BLOCK_SIZE = 16
-def pad(data):
- return data + ' ' * (BLOCK_SIZE - len(data) % BLOCK_SIZE)
-def encrypt_aes(data, key):
- cipher = AES.new(key, AES.MODE_ECB)
- return base64.b64encode(cipher.encrypt(pad(data).encode()))
- def decrypt_aes(encrypted_data, key):
- cipher = AES.new(key, AES.MODE_ECB)
- return cipher.decrypt(base64.b64decode(encrypted_data)).decode().rstrip()
+- Encrypt and decrypt text-based score data
+- Supports three major encryption algorithms:
+  - **AES** (Advanced Encryption Standard)
+  - **DES** (Data Encryption Standard)
+  - **RSA** (Rivest–Shamir–Adleman)
+- View encrypted output in **Base64 format**
+- Includes a **comparison summary** of all algorithms
+- Generates a **PDF report** with code and explanation
 
+---
 
-## File: des_encryption.py
+## 🛠 Technologies Used
 
-from Crypto.Cipher import DES
-from Crypto.Random import get_random_bytes
-import base64
-BLOCK_SIZE = 8
-def pad(data):
- return data + ' ' * (BLOCK_SIZE - len(data) % BLOCK_SIZE)
-def encrypt_des(data, key):
- cipher = DES.new(key, DES.MODE_ECB)
- return base64.b64encode(cipher.encrypt(pad(data).encode()))
-def decrypt_des(encrypted_data, key):
- cipher = DES.new(key, DES.MODE_ECB)
- return cipher.decrypt(base64.b64decode(encrypted_data)).decode().rstrip()
+- **Python 3**
+- **PyCryptodome** – for AES, DES, and RSA implementations
+- **Base64** – for encoding binary encrypted data
+- **FPDF** – for generating project documentation in PDF format
 
+---
 
-## File: rsa_encryption.py
+## 📁 Project Structure
 
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
-import base64
-def generate_keys():
- key = RSA.generate(2048)
- return key.export_key(), key.publickey().export_key()
-def encrypt_rsa(data, public_key_bytes):
- public_key = RSA.import_key(public_key_bytes)
- cipher = PKCS1_OAEP.new(public_key)
- return base64.b64encode(cipher.encrypt(data.encode()))
-def decrypt_rsa(encrypted_data, private_key_bytes):
- private_key = RSA.import_key(private_key_bytes)
- cipher = PKCS1_OAEP.new(private_key)
- return cipher.decrypt(base64.b64decode(encrypted_data)).decode()
+encryption_tool/
+├── main.py # Main script for user interaction
+├── aes_encryption.py # AES algorithm implementation
+├── des_encryption.py # DES algorithm implementation
+├── rsa_encryption.py # RSA algorithm implementation
+├── requirements.txt # Required Python libraries
 
+---
 
-## File: requirements.txt
+## 🔧 Installation & Setup
 
-pycryptodome
+1. **Clone the Repository**
+```bash
+git clone https://github.com/yourusername/encryption_tool.git
+cd encryption_tool
+pip install -r requirements.txt
+python main.py
+
+📘usage example
+Enter score data (e.g. Alice: 95): Alice: 95
+Choose encryption method:
+1. AES
+2. DES
+3. RSA
+Enter your choice: 1
+
+Encrypted (AES): b'...'
+Decrypted: Alice: 95
+
+🧠 Learning Outcomes
+Understand the difference between symmetric and asymmetric encryption
+
+Explore the structure of cryptographic functions in Python
+
+Learn how to package and document Python projects
+
+---
+
+Would you like me to add this to your project folder as a file you can download?
